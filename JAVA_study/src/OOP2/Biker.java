@@ -1,15 +1,12 @@
 ﻿package OOP2;
 
-//import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.FileInputStream;
-//import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-//import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,21 +18,20 @@ public class Biker {
 	public static List<Equipment>myEquipment;
 	
 	public static void main(String[] args) throws Exception{
-		// TODO Auto-generated method stub
-
 		
 		List<Equipment> foundEquipment = null;
 		
 		myEquipment = buildEquipment();
 		
+		
+		//постоянное меню
 		do {
 		System.out.println("Введите а - если необходимо вывести список несортированный список экипировки");
 		System.out.println("Введите b - если необходимо вывести список отсортированный по весу список экипировки");
 		System.out.println("Введите c - если необходимо вывести элементы экипировки соответствующие заданному диапазону параметров цены");
 	    System.out.println("Введите d - если необходимо вывести данные из файла");
 		System.out.println("Введите e - если хотите выйти из программы");
-		
-		
+				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));		
 		
 		String choose = reader.readLine();
@@ -168,6 +164,7 @@ public class Biker {
 				return foundEquipment;
 			}
 			
+			//вывод в arraylist из файла
 		    public static List<Equipment> findEquipmentByFile() {
 				List<Equipment>foundEquipment =  new ArrayList<Equipment>();
 			    
@@ -200,7 +197,7 @@ public class Biker {
 				for (Equipment s : foundEquipment) {
 					if (s != null){
 					System.out.println(s.toString());
-					out.writeObject(s);
+					out.writeObject(s); //запись в файл
 					}
 				}
 				out.close();
