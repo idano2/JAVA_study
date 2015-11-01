@@ -2,10 +2,13 @@
 
 //import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.FileInputStream;
 //import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 //import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ public class Biker {
 		System.out.println("Введите а - если необходимо вывести список несортированный список экипировки");
 		System.out.println("Введите b - если необходимо вывести список отсортированный по весу список экипировки");
 		System.out.println("Введите c - если необходимо вывести элементы экипировки соответствующие заданному диапазону параметров цены");
-	//	System.out.println("Введите d - если необходимо вывести данные из файла");
+	    System.out.println("Введите d - если необходимо вывести данные из файла");
 		System.out.println("Введите e - если хотите выйти из программы");
 		
 		
@@ -65,7 +68,7 @@ public class Biker {
 				break;
 			}
 			
-		/*	case 'd': {
+		   case 'd': {
 				
 				System.out.println("Данные из файла");
 				foundEquipment = findEquipmentByFile();
@@ -76,7 +79,7 @@ public class Biker {
 				break;
 			}
 			
-		*/	
+			
 			case 'e': {
 				
 				System.exit(0);
@@ -165,31 +168,32 @@ public class Biker {
 				return foundEquipment;
 			}
 			
-		/*	public static List<Equipment> findEquipmentByFile() {
+		    public static List<Equipment> findEquipmentByFile() {
 				List<Equipment>foundEquipment =  new ArrayList<Equipment>();
 			    
-				ObjectInputStream in = null;
-			        try {
-			            in = new ObjectInputStream(new BufferedInputStream(
-			                                       new FileInputStream("objects.dat")));
-			            foundEquipment = (List<Equipment>)in.readObject();
-			        } catch ( IOException ex ) {
-			            ex.printStackTrace();
-			        } catch ( Exception ex ) {
-			            ex.printStackTrace();
-			        } finally {
-			             if ( in != null )
-			                 try {
-			                     in.close();
-			                 } catch ( IOException ex ) {
-			                     ex.printStackTrace();
-			                 }
-			        }
-								
-				return foundEquipment;
+				try {
+				    ObjectInputStream objIn = new ObjectInputStream(new FileInputStream("objects.dat"));
+				    boolean check=true;
+				    while (check) {
+
+				try{
+				
+				foundEquipment.add((Equipment) objIn.readObject());
 				}
-			*/
-			
+				
+				catch(EOFException ex){
+				check=false;
+				}
+
+				    }
+				    objIn.close();
+				} catch(Exception e) {
+				    e.printStackTrace();
+				}
+							
+				return foundEquipment;
+			}
+						
 			public static void printfoundEquipment(List<Equipment> foundEquipment) throws IOException {
 				ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("objects.dat"));
 				
